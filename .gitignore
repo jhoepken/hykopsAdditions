@@ -37,3 +37,5 @@ Makefile*
 # QtCtreator CMake
 CMakeLists.txt.user*
 
+# Specific ignores
+ftrExport/ftrExport
