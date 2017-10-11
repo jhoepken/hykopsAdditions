@@ -16,6 +16,7 @@ LIBS += -L$$(HYKOPS_LIB_DIR) \
         -lserializeemf
 
 INCLUDEPATH +=  . \
+                $$(BOOST_INCLUDE) \
                 $$(HYKOPS_LIB_DIR) \
                 $$(HYKOPS_PROJECT_DIR)/hykops_rudder \
                 $$(HYKOPS_PROJECT_DIR)/hykops_core \
@@ -23,6 +24,7 @@ INCLUDEPATH +=  . \
                 $$(HYKOPS_PROJECT_DIR)/serializeemf
 
 DEPENDPATH +=  . \
+                $$(BOOST_LIB) \
                 $$(HYKOPS_LIB_DIR) \
                 $$(HYKOPS_PROJECT_DIR)/hykops_rudder \
                 $$(HYKOPS_PROJECT_DIR)/hykops_core \
@@ -34,6 +36,17 @@ SOURCES = ftrExport.cpp
 # install
 unix {
     target.path = .
+    INSTALLS += target
+}
+macx {
+    QMAKE_CC = clang
+    QMAKE_CXX = clang++
+
+    QMAKE_CXXFLAGS += -std=c++11
+    QMAKE_CCFLAGS += -std=c++11
+
+    DESTDIR = $$(HYKOPS_LIB_DIR)
+    target.path = $$(HYKOPS_LIB_DIR)
     INSTALLS += target
 }
 
