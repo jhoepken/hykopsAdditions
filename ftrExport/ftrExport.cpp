@@ -20,7 +20,10 @@
 //#include <fstream>
 //#include <sstream>
 #include <iostream>
+#include <tuple>
+#include <vector>
 #include "genericDuct.h"
+#include "pointListCrossSection.h"
 //#include "../hykops_core/C_Interface.h"
 //#include "../serializeemf/domwriter.h"
 
@@ -31,28 +34,42 @@ int main()
     cout << "Lit, fam" << endl;
     genericDuct<int,float> duct(1, 2.0);
 
-    if(true)
-    {
-        HComposition* composition = CompositionFactory::create("Rudergeo", "Rudergeo composition");
-        RudergeoParser* rp = new RudergeoParser();
-        char* filename = "/tmp/libs/Rudergeo2.out";
-        char* loftspline = "HERMITE";
-        char* profilespline = "LINEAR"; // Problem: bei anderem als linear absturz oder kaputte geometrie...
-        QString name = QString::fromLatin1(filename);
-        QString description = QString::fromLatin1(filename);
-        double bulbHeight = 2.05;
-        HComponent* comp = rp->parse(composition, filename, loftspline, profilespline, name, description, bulbHeight);
+    //pointListCrossSection(std::vector<std::tuple<double, double> >);
+    //std::tuple<double, double> point({1.0,2.0});
+    const std::vector<std::tuple<double, double> > points ({
+                                                    {0.0, 0.0},
+                                                    {1.0, 0.0},
+                                                    {0.2, 0.5},
+                                                    });
+    pointListCrossSection cross
+                            (
+                                points
+                            );
 
-        double maxUSize = 0.1;
-        double maxVSize = 0.1;
-        double maxRatio = 2.;
-        double maxSkew = .0 * (3.14159/180.);
-        double curvatureFactor = .05; // gross: nur da verfeinern, wo krümmung. In verbindung mit hoher rekursionstiefe sinnvoll
-        double minSize = 5.e-5;
-        double maxSize = 5.e-1;
-        int recursionDepth = 9;
+    std::cout << std::get<0>(cross.pointAt(0)) << std::endl;
 
-        Export::exportSTL("/tmp/libs/rudder.stl", composition, maxUSize, maxVSize, maxRatio, maxSkew, curvatureFactor, minSize, maxSize, recursionDepth );
+    //if(true)
+    //{
+        //HComposition* composition = CompositionFactory::create("Rudergeo", "Rudergeo composition");
+        //RudergeoParser* rp = new RudergeoParser();
+        //char* filename = "/tmp/libs/Rudergeo2.out";
+        //char* loftspline = "HERMITE";
+        //char* profilespline = "LINEAR"; // Problem: bei anderem als linear absturz oder kaputte geometrie...
+        //QString name = QString::fromLatin1(filename);
+        //QString description = QString::fromLatin1(filename);
+        //double bulbHeight = 2.05;
+        //HComponent* comp = rp->parse(composition, filename, loftspline, profilespline, name, description, bulbHeight);
 
-    }
+        //double maxUSize = 0.1;
+        //double maxVSize = 0.1;
+        //double maxRatio = 2.;
+        //double maxSkew = .0 * (3.14159/180.);
+        //double curvatureFactor = .05; // gross: nur da verfeinern, wo krümmung. In verbindung mit hoher rekursionstiefe sinnvoll
+        //double minSize = 5.e-5;
+        //double maxSize = 5.e-1;
+        //int recursionDepth = 9;
+
+        //Export::exportSTL("/tmp/libs/rudder.stl", composition, maxUSize, maxVSize, maxRatio, maxSkew, curvatureFactor, minSize, maxSize, recursionDepth );
+
+    //}
 }

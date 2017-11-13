@@ -14,6 +14,7 @@ LIBS += -L$$(HYKOPS_LIB_DIR) \
         -lhykops_core \
         -lhykops_rudder \
         -lserializeemf \
+        -lhykops_crossSections \
         -lhykops_ducts
 
 INCLUDEPATH +=  . \
@@ -22,6 +23,8 @@ INCLUDEPATH +=  . \
                 $$(HYKOPS_PROJECT_DIR)/hykops_core \
                 $$(HYKOPS_PROJECT_DIR)/hykops_data \
                 $$(HYKOPS_PROJECT_DIR)/serializeemf \
+                ../crossSections/genericCrossSection \
+                ../crossSections/pointListCrossSection \
                 ../ducts/genericDuct
 
 DEPENDPATH +=  . \
@@ -30,6 +33,8 @@ DEPENDPATH +=  . \
                 $$(HYKOPS_PROJECT_DIR)/hykops_core \
                 $$(HYKOPS_PROJECT_DIR)/hykops_data \
                 $$(HYKOPS_PROJECT_DIR)/serializeemf \
+                ../crossSections/genericCrossSection \
+                ../crossSections/pointListCrossSection \
                 ../ducts/genericDuct
 
 SOURCES = ftrExport.cpp
@@ -42,9 +47,5 @@ unix {
 
 
 message("--------------------------------------------------------------------------------")
-message($$(HYKOPS_PROJECT_DIR))
-message(">>>")
-message($$(HYKOPS_LIB_DIR))
-message(">>>")
-message($$LIBS)
+message("    PREPARING EXECUTABLE BUILDING")
 message("--------------------------------------------------------------------------------")
