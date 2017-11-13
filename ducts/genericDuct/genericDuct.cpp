@@ -1,4 +1,9 @@
 #include "genericDuct.h"
 
-genericDuct::genericDuct()
+template<class CrossSection, class Rotation>
+genericDuct<CrossSection, Rotation>::genericDuct
+(
+    const CrossSection& cross,
+    const Rotation& rotation
+)
 {}

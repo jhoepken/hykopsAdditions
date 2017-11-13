@@ -39,12 +39,3 @@ unix {
     INSTALLS += target
     DESTDIR = $$(HYKOPS_LIB_DIR)
 }
-
-
-message("--------------------------------------------------------------------------------")
-message($$(HYKOPS_PROJECT_DIR))
-message(">>>")
-message($$(HYKOPS_LIB_DIR))
-message(">>>")
-message($$LIBS)
-message("--------------------------------------------------------------------------------")

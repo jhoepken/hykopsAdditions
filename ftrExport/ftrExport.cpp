@@ -20,6 +20,7 @@
 //#include <fstream>
 //#include <sstream>
 #include <iostream>
+#include "genericDuct.h"
 //#include "../hykops_core/C_Interface.h"
 //#include "../serializeemf/domwriter.h"
 
@@ -28,6 +29,8 @@ using namespace std;
 int main()
 {
     cout << "Lit, fam" << endl;
+    genericDuct<int,float> duct(1, 2.0);
+
     if(true)
     {
         HComposition* composition = CompositionFactory::create("Rudergeo", "Rudergeo composition");

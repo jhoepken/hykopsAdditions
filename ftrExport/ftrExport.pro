@@ -13,21 +13,24 @@ LIBS += -L$$(HYKOPS_LIB_DIR) \
         -lhykops_data \
         -lhykops_core \
         -lhykops_rudder \
-        -lserializeemf
+        -lserializeemf \
+        -lhykops_ducts
 
 INCLUDEPATH +=  . \
                 $$(HYKOPS_LIB_DIR) \
                 $$(HYKOPS_PROJECT_DIR)/hykops_rudder \
                 $$(HYKOPS_PROJECT_DIR)/hykops_core \
                 $$(HYKOPS_PROJECT_DIR)/hykops_data \
-                $$(HYKOPS_PROJECT_DIR)/serializeemf
+                $$(HYKOPS_PROJECT_DIR)/serializeemf \
+                ../ducts/genericDuct
 
 DEPENDPATH +=  . \
                 $$(HYKOPS_LIB_DIR) \
                 $$(HYKOPS_PROJECT_DIR)/hykops_rudder \
                 $$(HYKOPS_PROJECT_DIR)/hykops_core \
                 $$(HYKOPS_PROJECT_DIR)/hykops_data \
-                $$(HYKOPS_PROJECT_DIR)/serializeemf
+                $$(HYKOPS_PROJECT_DIR)/serializeemf \
+                ../ducts/genericDuct
 
 SOURCES = ftrExport.cpp
 
