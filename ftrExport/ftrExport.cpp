@@ -34,17 +34,14 @@ int main()
     cout << "Lit, fam" << endl;
     genericDuct<int,float> duct(1, 2.0);
 
-    //pointListCrossSection(std::vector<std::tuple<double, double> >);
-    //std::tuple<double, double> point({1.0,2.0});
     const std::vector<std::tuple<double, double> > points ({
                                                     {0.0, 0.0},
                                                     {1.0, 0.0},
                                                     {0.2, 0.5},
                                                     });
-    pointListCrossSection cross
-                            (
-                                points
-                            );
+    pointListCrossSection cross (points);
+
+    //const std::tuple<double, double> t(stdcross.pointAt(0));
 
     std::cout << std::get<0>(cross.pointAt(0)) << std::endl;
 

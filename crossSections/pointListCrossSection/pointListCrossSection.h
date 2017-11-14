@@ -15,7 +15,7 @@ private:
 
 public:
 
-    pointListCrossSection(std::vector<std::tuple<double, double> > points);
+    pointListCrossSection(const std::vector<std::tuple<double, double> >& points);
 
     const std::tuple<double, double> pointAt(const int runner);
 
