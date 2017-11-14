@@ -10,6 +10,8 @@ public:
 
     virtual const std::tuple<double, double> pointAt(const int runner) = 0;
 
+    virtual bool isClosed() = 0;
+
 };
 
 #endif

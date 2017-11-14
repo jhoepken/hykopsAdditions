@@ -19,6 +19,8 @@ public:
 
     const std::tuple<double, double> pointAt(const int runner);
 
+    bool isClosed();
+
 };
 
 #endif

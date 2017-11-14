@@ -7,7 +7,10 @@ pointListCrossSection::pointListCrossSection(const std::vector<std::tuple<double
 
 const std::tuple<double, double> pointListCrossSection::pointAt(const int runner)
 {
-    //(void) runner;
     return {1.0, -1.0};
-    //return points_[0];
+}
+
+bool pointListCrossSection::isClosed()
+{
+    return true;
 }
