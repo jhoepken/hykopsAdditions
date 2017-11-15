@@ -13,6 +13,12 @@ private:
 
     const std::vector<std::tuple<double, double> > points_;
 
+    double interpolate
+            (
+                const std::tuple<double, double>& startPoint,
+                const std::tuple<double, double>& endPoint
+            ) const;
+
 public:
 
     pointListCrossSection(const std::vector<std::tuple<double, double> >& points);
