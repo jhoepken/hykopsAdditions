@@ -11,6 +11,10 @@ class genericDuct
 
 private:
 
+    const CrossSection& cross_;
+
+    const Rotation& rotation_;
+
     //- Disallow copy construction
     genericDuct();
 
@@ -21,6 +25,16 @@ public:
         const CrossSection& cross,
         const Rotation& rotation
     );
+
+    inline const CrossSection& cross() const
+    {
+        return cross_;
+    };
+
+    inline const Rotation& rotation() const
+    {
+        return rotation_;
+    };
 
 };
 

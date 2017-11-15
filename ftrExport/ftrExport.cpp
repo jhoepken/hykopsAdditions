@@ -37,13 +37,23 @@ int main()
     const std::vector<std::tuple<double, double> > points ({
                                                     {0.0, 0.0},
                                                     {1.0, 0.0},
-                                                    {0.2, 0.5},
+                                                    {1.0, 0.1},
+                                                    {0.2, 0.5}
                                                     });
     pointListCrossSection cross (points);
 
     //const std::tuple<double, double> t(stdcross.pointAt(0));
 
     std::cout << std::get<0>(cross.pointAt(0)) << std::endl;
+
+    if(cross.isClosed())
+    {
+        std::cout << "Closed" << std::endl;
+    }
+    else
+    {
+        std::cout << "Friggin not closed" << std::endl;
+    }
 
     //if(true)
     //{
