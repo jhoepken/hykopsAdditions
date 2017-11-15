@@ -55,6 +55,8 @@ int main()
         std::cout << "Friggin not closed" << std::endl;
     }
 
+    std::cout << std::get<0>(cross[0]) << std::endl;
+
     //if(true)
     //{
         //HComposition* composition = CompositionFactory::create("Rudergeo", "Rudergeo composition");

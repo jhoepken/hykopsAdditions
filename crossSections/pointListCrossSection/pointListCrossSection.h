@@ -19,8 +19,11 @@ public:
 
     const std::tuple<double, double> pointAt(const int runner);
 
-    bool isClosed();
+    bool isClosed() const;
 
+    double length() const;
+
+    std::tuple<double, double> operator[](double runner) const;
 };
 
 #endif

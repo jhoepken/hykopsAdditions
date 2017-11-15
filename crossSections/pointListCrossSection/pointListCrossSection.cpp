@@ -12,7 +12,7 @@ const std::tuple<double, double> pointListCrossSection::pointAt(const int runner
     return points_[runner];
 }
 
-bool pointListCrossSection::isClosed()
+bool pointListCrossSection::isClosed() const
 {
     if(
         (std::abs(std::get<0>(points_[0]) - std::get<0>(points_.back())) <= 1e-6) &&
@@ -25,4 +25,14 @@ bool pointListCrossSection::isClosed()
     {
         return false;
     }
+}
+
+double pointListCrossSection::length() const
+{
+    return 0.0;
+}
+
+std::tuple<double, double> pointListCrossSection::operator[](double runner) const
+{
+    return {1,1};
 }
