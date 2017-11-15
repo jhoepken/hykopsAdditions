@@ -60,7 +60,6 @@ bool pointListCrossSection::isClosed() const
 double pointListCrossSection::length() const
 {
     double length(0.0);
-    std::vector<int> range(points_.size() - 1);
 
     std::vector<std::tuple<double, double> > shiftedPoints(points_);
     std::rotate(shiftedPoints.begin(), shiftedPoints.begin() + 1, shiftedPoints.end());
