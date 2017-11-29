@@ -57,6 +57,9 @@ int main()
 
     std::cout << cross.length() << std::endl;
 
+    std::tuple<double, double> foo(cross[0.5]);
+    std::cout << std::get<0>(foo) << " " << std::get<1>(foo) << std::endl;
+
     //if(true)
     //{
         //HComposition* composition = CompositionFactory::create("Rudergeo", "Rudergeo composition");

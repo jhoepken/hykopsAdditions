@@ -12,21 +12,18 @@ LIBS_PATH = -L$$(HYKOPS_LIB_DIR)
 LIBS += -L$$(HYKOPS_LIB_DIR) \
         -lhykops_data \
         -lhykops_core \
-        -lhykops_rudder \
         -lserializeemf
 
 INCLUDEPATH +=  . \
                 $$(HYKOPS_LIB_DIR) \
-                $$(HYKOPS_PROJECT_DIR)/hykops_rudder \
-                $$(HYKOPS_PROJECT_DIR)/hykops_core \
                 $$(HYKOPS_PROJECT_DIR)/hykops_data \
+                $$(HYKOPS_PROJECT_DIR)/hykops_core \
                 $$(HYKOPS_PROJECT_DIR)/serializeemf
 
 DEPENDPATH +=  . \
                 $$(HYKOPS_LIB_DIR) \
-                $$(HYKOPS_PROJECT_DIR)/hykops_rudder \
-                $$(HYKOPS_PROJECT_DIR)/hykops_core \
                 $$(HYKOPS_PROJECT_DIR)/hykops_data \
+                $$(HYKOPS_PROJECT_DIR)/hykops_core \
                 $$(HYKOPS_PROJECT_DIR)/serializeemf
 
 SOURCES += genericDuct/genericDuct.cpp

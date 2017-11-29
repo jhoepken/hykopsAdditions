@@ -12,7 +12,6 @@ LIBS_PATH = -L$$(HYKOPS_LIB_DIR)
 LIBS += -L$$(HYKOPS_LIB_DIR) \
         -lhykops_data \
         -lhykops_core \
-        -lhykops_rudder \
         -lserializeemf \
         -lhykops_crossSections \
         -lhykops_ducts
