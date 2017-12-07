@@ -39,3 +39,6 @@ CMakeLists.txt.user*
 
 # Specific ignores
 ftrExport/ftrExport
+*.swp
+*.stash
+*.project

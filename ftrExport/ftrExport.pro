@@ -12,8 +12,9 @@ LIBS_PATH = -L$$(HYKOPS_LIB_DIR)
 LIBS += -L$$(HYKOPS_LIB_DIR) \
         -lhykops_data \
         -lhykops_core \
-        -lhykops_rudder \
-        -lserializeemf
+        -lserializeemf \
+        -lhykops_crossSections \
+        -lhykops_ducts
 
 INCLUDEPATH +=  . \
                 $$(BOOST_INCLUDE) \
@@ -21,7 +22,10 @@ INCLUDEPATH +=  . \
                 $$(HYKOPS_PROJECT_DIR)/hykops_rudder \
                 $$(HYKOPS_PROJECT_DIR)/hykops_core \
                 $$(HYKOPS_PROJECT_DIR)/hykops_data \
-                $$(HYKOPS_PROJECT_DIR)/serializeemf
+                $$(HYKOPS_PROJECT_DIR)/serializeemf \
+                ../crossSections/genericCrossSection \
+                ../crossSections/pointListCrossSection \
+                ../ducts/genericDuct
 
 DEPENDPATH +=  . \
                 $$(BOOST_LIB) \
@@ -29,7 +33,10 @@ DEPENDPATH +=  . \
                 $$(HYKOPS_PROJECT_DIR)/hykops_rudder \
                 $$(HYKOPS_PROJECT_DIR)/hykops_core \
                 $$(HYKOPS_PROJECT_DIR)/hykops_data \
-                $$(HYKOPS_PROJECT_DIR)/serializeemf
+                $$(HYKOPS_PROJECT_DIR)/serializeemf \
+                ../crossSections/genericCrossSection \
+                ../crossSections/pointListCrossSection \
+                ../ducts/genericDuct
 
 SOURCES = ftrExport.cpp
 
@@ -52,9 +59,5 @@ macx {
 
 
 message("--------------------------------------------------------------------------------")
-message($$(HYKOPS_PROJECT_DIR))
-message(">>>")
-message($$(HYKOPS_LIB_DIR))
-message(">>>")
-message($$LIBS)
+message("    PREPARING EXECUTABLE BUILDING")
 message("--------------------------------------------------------------------------------")
