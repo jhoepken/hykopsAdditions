@@ -37,7 +37,7 @@ public:
 //! export a point cloud of a component to a text file
     static int exportTXT(QString filename, HComponent *component, int nu, int nv);
 //! export a loft to ftr file
-    static int exportFTR(HLoft *loft, HSurfaceIdentifier *ident, double maxuSize_, double maxvSize_, double maxRatio_, double maxSkew_, double curvatureFactor_, double minSize_, double maxSize_, int maxRecursionDepth_);
+    static int exportFTR(QString filename, HComposition *composition, double maxuSize_, double maxvSize_, double maxRatio_, double maxSkew_, double curvatureFactor_, double minSize_, double maxSize_, int maxRecursionDepth_);
 
 private:
 //! write a given loft and surface identifier to a corresponding STL section
@@ -51,11 +51,11 @@ private:
 //! write a point cloud of a loft and surface identifier to a text file
     static int writeTXTSurface(FILE *fp, HLoft *loft, HSurfaceIdentifier *ident, int nu, int nv);
 //! get triangle points in 3D coordinates
-    static vector<float> GetTriangleCoordinates(Tesselation* t, HLoft* loft,  HSurfaceIdentifier* ident);
+    static vector<vector<float>> GetTriangleCoordinates(HComposition *composition, double maxuSize_, double maxvSize_, double maxRatio_, double maxSkew_, double curvatureFactor_, double minSize_, double maxSize_, int maxRecursionDepth_);
 //! reduce 3D points to unique point list
-    static vector<vector<float>> getSinglePointList(vector<float> PointList);
+    static vector<vector<float>> getSinglePointList(vector<vector<float>> PointList);
 //! index 3D points to list
-    static vector<int> getIndexList(vector<vector<float>> SinglePoints, vector<float> PointList);
+    static vector<vector<int>> getIndexList(vector<vector<float>> SinglePoints, vector<vector<float>> PointList);
 
 };
 

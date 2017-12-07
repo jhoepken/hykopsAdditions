@@ -364,12 +364,22 @@ int Export::writeTXTSurface(FILE *fp, HLoft *loft, HSurfaceIdentifier *ident, in
 
 
 //get 3D triangle coordinates
-vector<float> Export::GetTriangleCoordinates(Tesselation* t, HLoft* loft,  HSurfaceIdentifier* ident)
+vector<vector<float>> Export::GetTriangleCoordinates(HComposition* composition, double maxuSize_, double maxvSize_, double maxRatio_, double maxSkew_, double curvatureFactor_, double minSize_, double maxSize_, int maxRecursionDepth_)
 {
-	        QList<Triangle> tl = t->getTriangleList();
-	        vector<float> PointList;
-	        QVector3D p1, p2, p3;
-	        float p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z;
+	vector<vector<float>> PointList;
+
+	// create tesselation for every component
+	for (int j=0; j<composition->getHComponents()->size(); j++){
+	//get Components and Lofts
+		HComponent* TComp = composition->getHComponents()->at(j);
+	    HLoft* TLoft = TComp->getHLofts()->at(0);
+	    HSurfaceIdentifier* Tident = TLoft->getHSurfaceIdentifications()->at(0);
+	    vector<float> ComponentPointList;
+	    Tesselation* t= new Tesselation(TLoft, Tident, maxuSize_, maxvSize_, maxRatio_, maxSkew_, curvatureFactor_, minSize_, maxSize_, maxRecursionDepth_);
+
+	    QList<Triangle> tl = t->getTriangleList();
+	    QVector3D p1, p2, p3;
+	    float p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z;
 
 	        for(int i = 0; i < tl.size(); i++)
 	            {
@@ -378,9 +388,9 @@ vector<float> Export::GetTriangleCoordinates(Tesselation* t, HLoft* loft,  HSurf
 	                    QPointF uv1 = t->getDelaunayPoints().at(tri.at(0)).toPoint();
 	                    QPointF uv2 = t->getDelaunayPoints().at(tri.at(1)).toPoint();
 	                    QPointF uv3 = t->getDelaunayPoints().at(tri.at(2)).toPoint();
-	                    p1 = CoordinateTransformation::toGlobalCoordinate(loft, ident, uv1.x(), uv1.y(), false);
-	                    p2 = CoordinateTransformation::toGlobalCoordinate(loft, ident, uv2.x(), uv2.y(), false);
-	                    p3 = CoordinateTransformation::toGlobalCoordinate(loft, ident, uv3.x(), uv3.y(), false);
+	                    p1 = CoordinateTransformation::toGlobalCoordinate(TLoft, Tident, uv1.x(), uv1.y(), false);
+	                    p2 = CoordinateTransformation::toGlobalCoordinate(TLoft, Tident, uv2.x(), uv2.y(), false);
+	                    p3 = CoordinateTransformation::toGlobalCoordinate(TLoft, Tident, uv3.x(), uv3.y(), false);
 	            //get 3D components
 	                    p1x=p1.x();
 	                    p1y=p1.y();
@@ -392,48 +402,54 @@ vector<float> Export::GetTriangleCoordinates(Tesselation* t, HLoft* loft,  HSurf
 	                    p3y=p3.y();
 	                    p3z=p3.z();
 	             //add 3D components to list
-                        //point 1
-	                    PointList.push_back(p1x);
-	                    PointList.push_back(p1y);
-	                    PointList.push_back(p1z);
-                        //point 2
-	                    PointList.push_back(p2x);
-	                    PointList.push_back(p2y);
-	                    PointList.push_back(p2z);
-                        //point 3
-	                    PointList.push_back(p3x);
-	                    PointList.push_back(p3y);
-	                    PointList.push_back(p3z);
+	                    //point 1
+	                    ComponentPointList.push_back(p1x);
+	                    ComponentPointList.push_back(p1y);
+	                    ComponentPointList.push_back(p1z);
+	                    //point 2
+	                    ComponentPointList.push_back(p2x);
+						ComponentPointList.push_back(p2y);
+						ComponentPointList.push_back(p2z);
+						//point 3
+						ComponentPointList.push_back(p3x);
+						ComponentPointList.push_back(p3y);
+						ComponentPointList.push_back(p3z);
 	            }
-	        return PointList;
+	    	PointList.push_back(ComponentPointList);
+	}
+	return PointList;
 }
 
+
 //split Pointlist to x y z and remove mutliple points
-vector<vector<float>> Export::getSinglePointList(vector<float> PointList)
+vector<vector<float>> Export::getSinglePointList(vector<vector<float>> PointList)
 {
 	vector<vector<float>> SinglePoints;
+
 	// create List with x, y, z values
 	vector<float> Xlist;
 	vector<float> Ylist;
 	vector<float> Zlist;
 
-	for (int i=0; i<PointList.size(); i=i+3 ){
-		Xlist.push_back(PointList.at(i));
-		Ylist.push_back(PointList.at(i+1));
-		Zlist.push_back(PointList.at(i+2));
-	}
-	//remove mutliple occuring points
-	for (int i=0; i<Xlist.size(); i++){
-		for (int j=i+1; j<Xlist.size(); j++){
-			if((Xlist.at(i)==Xlist.at(j) && Ylist.at(i)==Ylist.at(j) && Zlist.at(i)==Zlist.at(j))){
-				Xlist.erase(Xlist.begin()+j);
-				Ylist.erase(Ylist.begin()+j);
-				Zlist.erase(Zlist.begin()+j);
-                //prevent any point from being skipped
-				j=j-1;
-			}
+	for(int j=0; j<PointList.size(); j++){
+		for (int i=0; i<PointList.at(j).size(); i=i+3 ){
+			Xlist.push_back(PointList.at(j).at(i));
+			Ylist.push_back(PointList.at(j).at(i+1));
+			Zlist.push_back(PointList.at(j).at(i+2));
 		}
 	}
+
+	for (int i=0; i<Xlist.size(); i++){
+			for (int j=i+1; j<Xlist.size(); j++){
+				if((Xlist.at(i)==Xlist.at(j) && Ylist.at(i)==Ylist.at(j) && Zlist.at(i)==Zlist.at(j))){
+					Xlist.erase(Xlist.begin()+j);
+					Ylist.erase(Ylist.begin()+j);
+					Zlist.erase(Zlist.begin()+j);
+					//prevent any point from being skipped
+					j=j-1;
+				}
+			}
+		}
 
 	//create x y z list with unique points
 		SinglePoints.push_back(Xlist);
@@ -446,44 +462,70 @@ vector<vector<float>> Export::getSinglePointList(vector<float> PointList)
 
 
 //Index reference to unique point list
-vector<int> Export::getIndexList(vector<vector<float>> SinglePoints, vector<float> PointList){
+vector<vector<int>> Export::getIndexList(vector<vector<float>> SinglePoints, vector<vector<float>> PointList){
 	// create index list
-	vector<int> indexlist;
+	vector<vector<int>> indexlist;
 
-	for(int i=0; i<PointList.size(); i=i+3){
-		for(int j=0; j<SinglePoints.at(0).size(); j++){
-	//create points by index
-			if((PointList.at(i)==SinglePoints.at(0).at(j) && PointList.at(i+1)==SinglePoints.at(1).at(j) && PointList.at(i+2)==SinglePoints.at(2).at(j))){
-				indexlist.push_back(j);
-	        }
+	for(int k=0; k<PointList.size(); k++){ //select component
+			vector<int> indexHelp;
+			for(int i=0; i<PointList.at(k).size(); i=i+3){ //select components 3D points
+				for(int j=0; j<SinglePoints.at(0).size(); j++){
+			//create points by index
+					if((PointList.at(k).at(i)==SinglePoints.at(0).at(j) && PointList.at(k).at(i+1)==SinglePoints.at(1).at(j) && PointList.at(k).at(i+2)==SinglePoints.at(2).at(j))){
+						indexHelp.push_back(j);
+					}
+				}
+			}
+			indexlist.push_back(indexHelp);
 		}
-	}
 	return indexlist;
 }
 
 
 //write ouput ftr file
-int Export::exportFTR(HLoft *loft, HSurfaceIdentifier *ident, double maxuSize_, double maxvSize_, double maxRatio_, double maxSkew_, double curvatureFactor_, double minSize_, double maxSize_, int maxRecursionDepth_)
+int Export::exportFTR(QString filename, HComposition *composition, double maxuSize_, double maxvSize_, double maxRatio_, double maxSkew_, double curvatureFactor_, double minSize_, double maxSize_, int maxRecursionDepth_)
 {
 
-Tesselation* t = new Tesselation(loft, ident, maxuSize_, maxvSize_, maxRatio_, maxSkew_, curvatureFactor_, minSize_, maxSize_, maxRecursionDepth_);
-
 //get unique points and indexlist
-vector<float> PointList = GetTriangleCoordinates(t, loft, ident);
+vector<vector<float>> PointList = GetTriangleCoordinates(composition, maxuSize_, maxvSize_, maxRatio_, maxSkew_, curvatureFactor_, minSize_, maxSize_, maxRecursionDepth_);
 vector<vector<float>> SinglePoints= getSinglePointList(PointList);
-vector<int> IndexList = getIndexList(SinglePoints, PointList);
+vector<vector<int>> IndexList = getIndexList(SinglePoints, PointList);
 
 //write output
-FILE *fp = fopen("test.ftr", "w" ); // Open file for writing
-fprintf(fp,"%d \n(\n",SinglePoints.at(0).size());
-for(int i=0; i<SinglePoints.at(0).size();i++){
-fprintf(fp, "(%f %f %f)\n", SinglePoints.at(0).at(i), SinglePoints.at(1).at(i), SinglePoints.at(2).at(i));
-}
+//Start writing of ftr file
+		FILE *fp = fopen( filename.toLatin1(), "w" ); // Open file for writing
+//write patches to ftr
+		fprintf(fp,"\n%d\n(\n\n",composition->getHComponents()->size());
+		for(int i=0; i<composition->getHComponents()->size(); i++){
+			fprintf(fp, "patch0_%d\n", i);
+			fprintf(fp, "empty\n\n");
+			}
+		fprintf(fp, ")\n\n");
 
-fprintf(fp,"\n%d \n(\n",IndexList.size());
-for(int i=0; i<IndexList.size();i=i+3){
-fprintf(fp, "((%d %d %d) )\n", IndexList.at(i), IndexList.at(i+1), IndexList.at(i+2));
-	}
+
+
+//write unique points to ftr
+		fprintf(fp,"\n%d\n(\n",SinglePoints.at(0).size());
+		for(int i=0; i<SinglePoints.at(0).size();i++){
+			fprintf(fp, "(%f %f %f)\n", SinglePoints.at(0).at(i), SinglePoints.at(1).at(i), SinglePoints.at(2).at(i));
+		}
+		fprintf(fp, ")\n\n");
+
+
+//write indices to ftr
+		//get number of indices
+			int IndexSize;
+			for(int i=0; i<IndexList.size(); i++){
+				IndexSize += IndexList.at(i).size();
+			}
+
+		fprintf(fp,"\n%d\n(\n",IndexSize/3);
+		for(int k=0; k<IndexList.size(); k++){
+		for(int i=0; i<IndexList.at(k).size(); i=i+3){
+			fprintf(fp, "((%d %d %d) %d)\n", IndexList.at(k).at(i), IndexList.at(k).at(i+1), IndexList.at(k).at(i+2), k);
+			}
+		}
+		fprintf(fp, ")");
 
 return 0;
 }
