@@ -12,8 +12,10 @@ public:
 
     virtual bool isClosed() const = 0;
 
+    // Returns the coordinates on surface at lambda [0;1]
     virtual std::tuple<double, double> operator[](double runner) const = 0;
 
+    // Returns cross-section surface length
     virtual double length() const = 0;
 };
 

@@ -89,19 +89,25 @@ std::tuple<double, double> pointListCrossSection::operator[](double runner) cons
     std::vector<std::tuple<double, double> > shiftedPoints(points_);
     std::rotate(shiftedPoints.begin(), shiftedPoints.begin() + 1, shiftedPoints.end());
 
+    std::cout << "--------------------" << std::endl;
     for(auto& p1 : points_)
     {
         const std::tuple<double, double>& p2(shiftedPoints[&p1-&points_[0]]);
         length += interpolate(p1, p2);
 
-        if( (interpolate(p1, p2) >= lTarget) && !detector)
+        std::cout << "Interpolate: " << interpolate(p1, p2) << std::endl;
+        std::cout << "target length: " << lTarget << std::endl;
+
+        if( (length >= lTarget) && !detector )
         {
-            length += interpolate(p1, p2);
+            detector = true;
             firstElement++;
+            std::cout << "FOOO" << std::endl;
+            std::cout<< interpolate(p1, p2) << " -- " << length << "\n" << std::endl;
         }
 
-        std::cout<< interpolate(p1, p2) << " -- " << length << std::endl;
     }
+    std::cout << "--------------------" << std::endl;
 
     return {1,1};
 }

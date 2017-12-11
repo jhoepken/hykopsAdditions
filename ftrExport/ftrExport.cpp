@@ -38,7 +38,8 @@ int main()
                                                     {0.0, 0.0},
                                                     {1.0, 0.0},
                                                     {1.0, 0.1},
-                                                    {0.2, 0.5}
+                                                    {0.2, 0.5},
+                                                    {0.0, 0.0}
                                                     });
     pointListCrossSection cross (points);
 
@@ -55,10 +56,11 @@ int main()
         std::cout << "Friggin not closed" << std::endl;
     }
 
-    std::cout << cross.length() << std::endl;
+    std::cout << "Length: " << cross.length() << std::endl;
 
     std::tuple<double, double> foo(cross[0.5]);
-    std::cout << std::get<0>(foo) << " " << std::get<1>(foo) << std::endl;
+    //std::cout << "Position on cross-section: " << std::get<0>(foo) << " " <<
+        //std::get<1>(foo) << std::endl;
 
     //if(true)
     //{
